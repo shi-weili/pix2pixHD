@@ -1,0 +1,1 @@
+python train.py --planet_mars --name planet_mars_gen_2 --loadSize 512 --fineSize 512 --label_nc 0 --input_nc 4 --dataroot '../data/simple_grid' --no_flip --no_instance 

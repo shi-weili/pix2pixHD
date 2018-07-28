@@ -1,11 +1,14 @@
 import torch.utils.data
 from data.base_data_loader import BaseDataLoader
 
-
 def CreateDataset(opt):
     dataset = None
-    from data.aligned_dataset import AlignedDataset
-    dataset = AlignedDataset()
+    if opt.planet_mars:
+        from data.planet_mars_dataset import PlanetMarsDataset
+        dataset = PlanetMarsDataset()
+    else:
+        from data.aligned_dataset import AlignedDataset
+        dataset = AlignedDataset()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
