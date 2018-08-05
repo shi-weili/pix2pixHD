@@ -2,6 +2,6 @@
 
 # python3 train.py --planet_mars --name planet_mars_gen_2 --loadSize 512 --fineSize 512 --label_nc 0 --input_nc 7 --dataroot 'datasets/seamless_grid' --no_flip --no_instance --batchSize 8 --gpu_ids 0,1,2,3,4,5,6,7
 
-python3 train.py --planet_mars --name planet_mars_gen_2 --loadSize 512 --fineSize 512 --label_nc 0 --input_nc 7 --dataroot 'datasets/seamless_grid' --no_flip --no_instance --continue_train --batchSize 32 --gpu_ids 0,1,2,3,4,5,6,7
+python3 train.py --planet_mars --name planet_mars_gen_2 --loadSize 512 --fineSize 512 --label_nc 0 --input_nc 7 --dataroot 'datasets/seamless_grid' --no_flip --no_instance --continue_train --batchSize 8 --gpu_ids 0,1,2,3,4,5,6,7
 
 sudo shutdown -h now
