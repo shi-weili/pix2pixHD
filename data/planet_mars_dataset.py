@@ -12,44 +12,49 @@ class PlanetMarsDataset(BaseDataset):
         self.opt = opt
         self.root = opt.dataroot 
         self.dir = os.path.join(opt.dataroot, opt.phase)
-        self.fnames = sorted(make_dataset(os.path.join(self.dir, 'topo'), fnameOnly=True))
+        self.fnames = sorted(make_dataset(os.path.join(self.dir, 'elevation'), fnameOnly=True))
 
     def __getitem__(self, index):
         fname = self.fnames[index]
 
         ### input A (topo data)
-        A_path = os.path.join(self.dir, 'topo', fname)
-        topo = Image.open(A_path)
-        topo = topo.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
-        topo = transforms.ToTensor()(topo)
-        topo = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(topo)
+        A_path = os.path.join(self.dir, 'elevation', fname)
+        elevation = Image.open(A_path)
+        elevation = elevation.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
+        elevation = transforms.ToTensor()(elevation)
+        elevation = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(elevation)
 
-        land = Image.open(os.path.join(self.dir, 'land', fname))
-        land = land.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
-        land = transforms.ToTensor()(land)
-        land = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(land)
-
-        longi = Image.open(os.path.join(self.dir, 'longi', fname))
-        longi = longi.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
-        longi = transforms.ToTensor()(longi).type(torch.FloatTensor) / 64800
-        longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
+        land_mask = Image.open(os.path.join(self.dir, 'land_mask', fname))
+        land_mask = land_mask.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
+        land_mask = transforms.ToTensor()(land_mask)
+        land_mask = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(land_mask)
     
-        lati = Image.open(os.path.join(self.dir, 'lati', fname))
-        lati = lati.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
-        lati = transforms.ToTensor()(lati).type(torch.FloatTensor) / 64800
-        lati = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(lati)
+        latitude = Image.open(os.path.join(self.dir, 'latitude', fname))
+        latitude = latitude.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
+        latitude = transforms.ToTensor()(latitude).type(torch.FloatTensor) / 64800
+        latitude = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(latitude)
 
-        A_tensor = torch.cat((topo, land, longi, lati), dim=0)
+        existing_image = Image.open(os.path.join(self.dir, 'existing_image', fname))
+        existing_image = existing_image.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
+        existing_image = transforms.ToTensor()(existing_image)
+        existing_image = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(existing_image)
+
+        existing_image_mask = Image.open(os.path.join(self.dir, 'existing_image_mask', fname))
+        existing_image_mask = existing_image_mask.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
+        existing_image_mask = transforms.ToTensor()(existing_image_mask).type(torch.FloatTensor) / 64800
+        existing_image_mask = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(existing_image_mask)
+
+        A_tensor = torch.cat((elevation, land_mask, latitude, existing_image, existing_image_mask), dim=0)
 
         B_tensor = inst_tensor = feat_tensor = 0
 
         ### input B (real satelite images)
         if self.opt.isTrain:
-            bm = Image.open(os.path.join(self.dir, 'bm', fname))
-            bm = bm.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
-            bm = transforms.ToTensor()(bm)
-            bm = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(bm)
-            B_tensor = bm                          
+            generated_image = Image.open(os.path.join(self.dir, 'generated_image', fname))
+            generated_image = generated_image.resize((self.opt.fineSize, self.opt.fineSize), Image.LANCZOS)
+            generated_image = transforms.ToTensor()(generated_image)
+            generated_image = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(generated_image)
+            B_tensor = generated_image                          
 
         input_dict = {'label': A_tensor, 'inst': inst_tensor, 'image': B_tensor, 
                       'feat': feat_tensor, 'path': A_path}
