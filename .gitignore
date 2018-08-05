@@ -39,4 +39,4 @@ test/data/legacy_serialized.pt
 *.DS_Store
 *~
 
-datasets/simple_grid
+datasets/
