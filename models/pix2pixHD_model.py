@@ -127,7 +127,13 @@ class Pix2PixHDModel(BaseModel):
             inst_map = inst_map.data.cuda()
             edge_map = self.get_edges(inst_map)
             input_label = torch.cat((input_label, edge_map), dim=1) 
-        input_label = Variable(input_label, volatile=infer)
+
+        # input_label = Variable(input_label, volatile=infer)
+        if infer:
+            with torch.no_grad():
+                input_label = Variable(input_label)
+        else:
+            input_label = Variable(input_label)
 
         # real images for training
         if real_image is not None:
@@ -192,7 +198,7 @@ class Pix2PixHDModel(BaseModel):
         # Only return the fake_B image if necessary to save BW
         return [ self.loss_filter( loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake ), None if not infer else fake_image ]
 
-    def inference(self, label, inst):
+    def inference(self, label, inst=None):
         # Encode Inputs        
         input_label, inst_map, _, _ = self.encode_input(Variable(label), Variable(inst), infer=True)
 
@@ -233,7 +239,9 @@ class Pix2PixHDModel(BaseModel):
         return feat_map
 
     def encode_features(self, image, inst):
-        image = Variable(image.cuda(), volatile=True)
+        # image = Variable(image.cuda(), volatile=True)
+        with torch.no_grad():
+            image = Variable(image.cuda())
         feat_num = self.opt.feat_num
         h, w = inst.size()[2], inst.size()[3]
         block_num = 32
