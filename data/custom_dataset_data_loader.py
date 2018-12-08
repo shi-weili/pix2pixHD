@@ -7,10 +7,10 @@ def CreateDataset(opt):
         from data.aligned_dataset import AlignedDataset
         dataset = AlignedDataset()
     elif opt.dataset == 'simple_grid':
-        from data.aligned_dataset import SimpleGridDataset
+        from data.simple_grid_dataset import SimpleGridDataset
         dataset = SimpleGridDataset()
     elif opt.dataset == 'seamless_grid':
-        from data.aligned_dataset import SeamlessGridDataset
+        from data.seamless_grid_dataset import SeamlessGridDataset
         dataset = SeamlessGridDataset()
 
     print("dataset [%s] was created" % (dataset.name()))
