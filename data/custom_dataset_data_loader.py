@@ -3,12 +3,15 @@ from data.base_data_loader import BaseDataLoader
 
 def CreateDataset(opt):
     dataset = None
-    if opt.planet_mars:
-        from data.planet_mars_dataset import PlanetMarsDataset
-        dataset = PlanetMarsDataset()
-    else:
+    if opt.dataset == 'aligned':
         from data.aligned_dataset import AlignedDataset
         dataset = AlignedDataset()
+    elif opt.dataset == 'simple_grid':
+        from data.aligned_dataset import SimpleGridDataset
+        dataset = SimpleGridDataset()
+    elif opt.dataset == 'seamless_grid':
+        from data.aligned_dataset import SeamlessGridDataset
+        dataset = SeamlessGridDataset()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

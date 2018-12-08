@@ -61,7 +61,14 @@ class BaseOptions():
         self.parser.add_argument('--n_clusters', type=int, default=10, help='number of clusters for features')  
 
         # Planet Mars
-        self.parser.add_argument('--planet_mars', action='store_true', help='if specified, use Planet Mars dataset')
+        self.parser.add_argument('--dataset', type=str, default='simple_grid|seamless_grid|aligned', help='[simple_grid|seamless_grid|aligned]')
+
+        # SimpleGridDataset params:
+        self.parser.add_argument('--topo_filter', type=str, default='none', help='Apply Pillow ImageFilter to elevation data in SimpleGridDataset [none|detail|edge_enhance|edge_enhance_more|sharpen]')
+        self.parser.add_argument('--land_ocean', type=str, default='land_mask', help='Land ocean data in SimpleGridDataset [land_mask|distance_to_ocean|both|none]')
+        self.parser.add_argument('--lati', type=str, default='monotone', help='Latitude data in SimpleGridDataset [monotone|symmetric|none]')
+        self.parser.add_argument('--longi', type=str, default='circular', help='Longitude data in SimpleGridDataset [monotone|circular|none]')
+        self.parser.add_argument('--multi_phase_dataset', action='store_true', help="if not specified, SimpleGridDataset won't append \"train\" or \"test\" to dataroot")
 
         self.initialized = True
 

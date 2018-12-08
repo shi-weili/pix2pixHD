@@ -7,7 +7,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 import torch
 
-class PlanetMarsDataset(BaseDataset):
+class SeamlessGridDataset(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         self.root = opt.dataroot 
@@ -65,4 +65,4 @@ class PlanetMarsDataset(BaseDataset):
         return len(self.fnames) // self.opt.batchSize * self.opt.batchSize
 
     def name(self):
-        return 'PlanetMarsDataset'
+        return 'SeamlessGridDataset'
