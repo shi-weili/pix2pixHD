@@ -166,9 +166,7 @@ class Pix2PixHDModel(BaseModel):
             input_concat = torch.cat((input_label, feat_map), dim=1)                        
         else:
             input_concat = input_label
-
-        with torch.no_grad():
-            fake_image = self.netG.forward(input_concat)
+        fake_image = self.netG.forward(input_concat)
 
         # Fake Detection and Loss
         pred_fake_pool = self.discriminate(input_label, fake_image, use_pool=True)
@@ -215,11 +213,9 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_concat = input_label        
            
-        if torch.__version__.startswith('0.4'):
-            with torch.no_grad():
-                fake_image = self.netG.forward(input_concat)
-        else:
+        with torch.no_grad():
             fake_image = self.netG.forward(input_concat)
+            
         return fake_image
 
     def sample_features(self, inst): 
