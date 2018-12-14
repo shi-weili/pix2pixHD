@@ -166,7 +166,9 @@ class Pix2PixHDModel(BaseModel):
             input_concat = torch.cat((input_label, feat_map), dim=1)                        
         else:
             input_concat = input_label
-        fake_image = self.netG.forward(input_concat)
+
+        with torch.no_grad():
+            fake_image = self.netG.forward(input_concat)
 
         # Fake Detection and Loss
         pred_fake_pool = self.discriminate(input_label, fake_image, use_pool=True)
