@@ -35,8 +35,8 @@ if not opt.engine and not opt.onnx:
     if opt.verbose:
         print(model)
 else:
-    from run_engine import run_trt_engine, run_onnx
-    
+    from run_engine import run_trt_engine, run_onnx       
+
 for i, data in enumerate(dataset):
     if i >= opt.how_many:
         break
@@ -57,7 +57,8 @@ for i, data in enumerate(dataset):
         generated = run_trt_engine(opt.engine, minibatch, [data['label'], data['inst']])
     elif opt.onnx:
         generated = run_onnx(opt.onnx, opt.data_type, minibatch, [data['label'], data['inst']])
-    else:        
+    else:
+        model.eval()
         generated = model.inference(data['label'], data['inst'])
         
     visuals = OrderedDict([('input_label', util.tensor2label(data['label'][0], opt.label_nc)),
