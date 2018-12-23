@@ -62,7 +62,7 @@ class BaseOptions():
         self.parser.add_argument('--nef', type=int, default=16, help='# of encoder filters in the first conv layer')        
         self.parser.add_argument('--n_clusters', type=int, default=10, help='number of clusters for features')  
 
-        # Planet Mars
+        # Terra Mars
         self.parser.add_argument('--dataset', type=str, default='simple_grid|seamless_grid|aligned', help='[simple_grid|seamless_grid|aligned]')
 
         # SimpleGridDataset params:
