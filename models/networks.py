@@ -5,6 +5,7 @@ import torch.nn as nn
 import functools
 from torch.autograd import Variable
 import numpy as np
+from . import batch_renorm as brn
 
 ###############################################################################
 # Functions
@@ -20,6 +21,8 @@ def weights_init(m):
 def get_norm_layer(norm_type='instance'):
     if norm_type == 'batch':
         norm_layer = functools.partial(nn.BatchNorm2d,  momentum=0.01, affine=True)
+    elif norm_type == 'batch_renorm':
+        norm_layer = functools.partial(brn.BatchRenorm2d)
     elif norm_type == 'instance':
         norm_layer = functools.partial(nn.InstanceNorm2d, affine=False)
     else:
