@@ -135,16 +135,25 @@ class SimpleGridDataset(BaseDataset):
             if self.opt.bm_version == 'bm':
                 bm = Image.open(os.path.join(self.dir, 'bm', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
+            elif self.opt.bm_version == 'bm_land_ocean':
+                bm = Image.open(os.path.join(self.dir, 'bm_land_ocean', fname))
+                bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
             elif self.opt.bm_version == 'bm_land_ocean_ice':
                 bm = Image.open(os.path.join(self.dir, 'bm_land_ocean_ice', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
+            elif self.opt.bm_version == 'night':
+                bm = Image.open(os.path.join(self.dir, 'night', fname))
+                bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
+            elif self.opt.bm_version == 'clouds':
+                bm = Image.open(os.path.join(self.dir, 'clouds', fname))
+                bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
 
-            if bm.mode == 'RGB' or bm.mode == 'RGBA':
+            if bm.mode == 'RGB' or bm.mode == 'RGBA' or bm.mode == 'L':
                 bm = transforms.ToTensor()(bm)
             else:
                 bm = transforms.ToTensor()(bm).type(torch.FloatTensor) / 65535
 
-            bm = bm[:3, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
+            bm = bm[:min(bm.size[0], 3), h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             bm = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(bm)
             B = bm       
 
