@@ -153,7 +153,7 @@ class SimpleGridDataset(BaseDataset):
             else:
                 bm = transforms.ToTensor()(bm).type(torch.FloatTensor) / 65535
 
-            bm = bm[:min(bm.size[0], 3), h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
+            bm = bm[:min(bm.size()[0], 3), h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             bm = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(bm)
             B = bm       
 
