@@ -133,18 +133,18 @@ class SimpleGridDataset(BaseDataset):
 
         if self.opt.isTrain:
             if self.opt.bm_version == 'bm':
-                bm = Image.open(os.path.join(self.dir, 'bm', fname))[:, :, :3]
+                bm = Image.open(os.path.join(self.dir, 'bm', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
             elif self.opt.bm_version == 'bm_land_ocean_ice':
-                bm = Image.open(os.path.join(self.dir, 'bm_land_ocean_ice', fname))[:, :, :3]
+                bm = Image.open(os.path.join(self.dir, 'bm_land_ocean_ice', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
 
-            if bm.mode == 'RGB':
+            if bm.mode == 'RGB' or bm.mode == 'RGBA':
                 bm = transforms.ToTensor()(bm)
             else:
                 bm = transforms.ToTensor()(bm).type(torch.FloatTensor) / 65535
 
-            bm = bm[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
+            bm = bm[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize, :3]
             bm = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(bm)
             B = bm       
 
