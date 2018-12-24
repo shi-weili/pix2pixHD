@@ -133,10 +133,10 @@ class SimpleGridDataset(BaseDataset):
 
         if self.opt.isTrain:
             if self.opt.bm_version == 'bm':
-                bm = Image.open(os.path.join(self.dir, 'bm', fname))
+                bm = Image.open(os.path.join(self.dir, 'bm', fname))[:, :, :3]
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
             elif self.opt.bm_version == 'bm_land_ocean_ice':
-                bm = Image.open(os.path.join(self.dir, 'bm_land_ocean_ice', fname))
+                bm = Image.open(os.path.join(self.dir, 'bm_land_ocean_ice', fname))[:, :, :3]
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
 
             if bm.mode == 'RGB':
