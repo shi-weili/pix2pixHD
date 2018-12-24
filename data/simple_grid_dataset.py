@@ -132,19 +132,19 @@ class SimpleGridDataset(BaseDataset):
         inst_tensor = feat_tensor = 0
 
         if self.opt.isTrain:
-            if self.opt.bm_version == 'bm':
+            if self.opt.target == 'bm':
                 bm = Image.open(os.path.join(self.dir, 'bm', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
-            elif self.opt.bm_version == 'bm_land_ocean':
+            elif self.opt.target == 'bm_land_ocean':
                 bm = Image.open(os.path.join(self.dir, 'bm_land_ocean', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
-            elif self.opt.bm_version == 'bm_land_ocean_ice':
+            elif self.opt.target == 'bm_land_ocean_ice':
                 bm = Image.open(os.path.join(self.dir, 'bm_land_ocean_ice', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
-            elif self.opt.bm_version == 'night':
+            elif self.opt.target == 'night':
                 bm = Image.open(os.path.join(self.dir, 'night', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
-            elif self.opt.bm_version == 'clouds':
+            elif self.opt.target == 'clouds':
                 bm = Image.open(os.path.join(self.dir, 'clouds', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
 
