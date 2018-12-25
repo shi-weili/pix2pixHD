@@ -62,11 +62,11 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         if opt.data_type == 16:
             data['label'] = data['label'].half()
             data['inst']  = data['inst'].half()
-            data['image']  = data['inst'].half()
+            data['image']  = data['image'].half()
         elif opt.data_type == 8:
             data['label'] = data['label'].uint8()
             data['inst']  = data['inst'].uint8()
-            data['image']  = data['inst'].half()
+            data['image']  = data['image'].uint8()
 
         # whether to collect output images
         save_fake = total_steps % opt.display_freq == display_delta
