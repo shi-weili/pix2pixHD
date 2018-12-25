@@ -163,6 +163,10 @@ class SimpleGridDataset(BaseDataset):
         input_dict = {'label': A, 'inst': inst_tensor, 'image': B, 
                       'feat': feat_tensor, 'path': fname}
 
+        if self.opt.data_type == 16:
+            for _, tensor in input_dict:
+                tensor = tensor.half()
+
         return input_dict
 
     def __len__(self):
