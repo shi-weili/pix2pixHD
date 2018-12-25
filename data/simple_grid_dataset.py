@@ -159,10 +159,6 @@ class SimpleGridDataset(BaseDataset):
 
         else:
             B = np.zeros_like(topo)  
-        
-        if self.opt.data_type == 16:
-            A = A.cuda().half()
-            B = B.cuda().half()
 
         input_dict = {'label': A, 'inst': inst_tensor, 'image': B, 
                       'feat': feat_tensor, 'path': fname}
