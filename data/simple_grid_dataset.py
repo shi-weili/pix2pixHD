@@ -164,7 +164,7 @@ class SimpleGridDataset(BaseDataset):
                       'feat': feat_tensor, 'path': fname}
 
         if self.opt.data_type == 16:
-            for _, tensor in input_dict:
+            for _, tensor in input_dict.items():
                 tensor = tensor.half()
 
         return input_dict
