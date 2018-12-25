@@ -12,7 +12,14 @@ class BaseModel(torch.nn.Module):
         self.opt = opt
         self.gpu_ids = opt.gpu_ids
         self.isTrain = opt.isTrain
-        self.Tensor = torch.cuda.FloatTensor if self.gpu_ids else torch.Tensor
+        
+        if self.opt.data_type == 32:
+            self.Tensor = torch.cuda.FloatTensor if self.gpu_ids else torch.Tensor
+        elif self.opt.data_type == 16:
+            self.Tensor = torch.cuda.HalfTensor if self.gpu_ids else torch.HalfTensor
+        elif self.opt.data_type == 8:
+            self.Tensor = torch.cuda.ByteTensor if self.gpu_ids else torch.ByteTensor
+
         self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
 
     def set_input(self, input):
