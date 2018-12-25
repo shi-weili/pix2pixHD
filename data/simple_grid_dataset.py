@@ -159,13 +159,13 @@ class SimpleGridDataset(BaseDataset):
 
         else:
             B = np.zeros_like(topo)  
+        
+        if self.opt.data_type == 16:
+            A = A.half()
+            B = B.half()
 
         input_dict = {'label': A, 'inst': inst_tensor, 'image': B, 
                       'feat': feat_tensor, 'path': fname}
-
-        if self.opt.data_type == 16:
-            for _, tensor in input_dict.items():
-                tensor = tensor.half()
 
         return input_dict
 
