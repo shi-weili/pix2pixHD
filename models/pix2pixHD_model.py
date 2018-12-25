@@ -138,6 +138,8 @@ class Pix2PixHDModel(BaseModel):
         # real images for training
         if real_image is not None:
             real_image = Variable(real_image.data.cuda())
+            if self.opt.data_type == 16:
+                real_image = real_image.half()
 
         # instance map for feature encoding
         if self.use_features:
