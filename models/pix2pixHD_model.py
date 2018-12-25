@@ -235,7 +235,7 @@ class Pix2PixHDModel(BaseModel):
                 idx = (inst == int(i)).nonzero()
                 for k in range(self.opt.feat_num):                                    
                     feat_map[idx[:,0], idx[:,1] + k, idx[:,2], idx[:,3]] = feat[cluster_idx, k]
-        if self.opt.data_type==16:
+        if self.opt.data_type == 16:
             feat_map = feat_map.half()
         return feat_map
 
@@ -269,7 +269,7 @@ class Pix2PixHDModel(BaseModel):
         edge[:,:,:,:-1] = edge[:,:,:,:-1] | (t[:,:,:,1:] != t[:,:,:,:-1])
         edge[:,:,1:,:] = edge[:,:,1:,:] | (t[:,:,1:,:] != t[:,:,:-1,:])
         edge[:,:,:-1,:] = edge[:,:,:-1,:] | (t[:,:,1:,:] != t[:,:,:-1,:])
-        if self.opt.data_type==16:
+        if self.opt.data_type == 16:
             return edge.half()
         else:
             return edge.float()

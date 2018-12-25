@@ -36,6 +36,12 @@ dataset_size = len(data_loader)
 print('#training images = %d' % dataset_size)
 
 model = create_model(opt)
+
+if opt.data_type == 16:
+    model.half()
+elif opt.data_type == 8:
+    model.type(torch.uint8)
+
 visualizer = Visualizer(opt)
 
 total_steps = (start_epoch-1) * dataset_size + epoch_iter
@@ -52,6 +58,15 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         iter_start_time = time.time()
         total_steps += opt.batchSize
         epoch_iter += opt.batchSize
+
+        if opt.data_type == 16:
+            data['label'] = data['label'].half()
+            data['inst']  = data['inst'].half()
+            data['image']  = data['inst'].half()
+        elif opt.data_type == 8:
+            data['label'] = data['label'].uint8()
+            data['inst']  = data['inst'].uint8()
+            data['image']  = data['inst'].half()
 
         # whether to collect output images
         save_fake = total_steps % opt.display_freq == display_delta
