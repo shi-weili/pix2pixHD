@@ -135,6 +135,9 @@ class SimpleGridDataset(BaseDataset):
             if self.opt.target == 'bm':
                 bm = Image.open(os.path.join(self.dir, 'bm', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
+            elif self.opt.target == 'bm_enhanced':
+                bm = Image.open(os.path.join(self.dir, 'bm_enhanced', fname))
+                bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)
             elif self.opt.target == 'bm_land_ocean':
                 bm = Image.open(os.path.join(self.dir, 'bm_land_ocean', fname))
                 bm = bm.resize((self.opt.loadSize, self.opt.loadSize), Image.BICUBIC)

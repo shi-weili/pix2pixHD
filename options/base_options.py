@@ -64,7 +64,7 @@ class BaseOptions():
 
         # Terra Mars
         self.parser.add_argument('--dataset', type=str, default='simple_grid|seamless_grid|aligned', help='[simple_grid|seamless_grid|aligned]')
-        self.parser.add_argument('--target', type=str, default='bm_land_ocean', help='Which Blue Marble version to use [bm | bm_land_ocean | bm_land_ocean_ice | night | clouds]')
+        self.parser.add_argument('--target', type=str, default='bm_land_ocean', help='Which Blue Marble version to use [bm | bm_enhanced | bm_land_ocean | bm_land_ocean_ice | night | clouds]')
         self.parser.add_argument('--topo_filter', type=str, default='none', help='Apply Pillow ImageFilter to elevation data in SimpleGridDataset [none|detail|edge_enhance|edge_enhance_more|sharpen]')
         self.parser.add_argument('--land_ocean', type=str, default='land_mask', help='Land ocean data in SimpleGridDataset [land_mask|distance_to_ocean|both|none]')
         self.parser.add_argument('--lati', type=str, default='monotone', help='Latitude data in SimpleGridDataset [monotone|symmetric|none]')
