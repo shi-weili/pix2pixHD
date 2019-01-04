@@ -69,6 +69,8 @@ class BaseOptions():
         self.parser.add_argument('--land_ocean', type=str, default='land_mask', help='Land ocean data in SimpleGridDataset [land_mask|distance_to_ocean|both|none]')
         self.parser.add_argument('--lati', type=str, default='monotone', help='Latitude data in SimpleGridDataset [monotone|symmetric|none]')
         self.parser.add_argument('--longi', type=str, default='circular', help='Longitude data in SimpleGridDataset [monotone|circular|none]')
+        self.parser.add_argument('--ease_lati', action='store_true', help='if specified, use sine function to ease in and out lati data')
+        self.parser.add_argument('--ease_longi', action='store_true', help='if specified, use sine function to ease in and out longi data')
         self.parser.add_argument('--multi_phase_dataset', action='store_true', help="if not specified, SimpleGridDataset won't append \"train\" or \"test\" to dataroot")
 
         self.initialized = True

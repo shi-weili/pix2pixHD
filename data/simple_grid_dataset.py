@@ -1,4 +1,5 @@
 import os.path
+import math
 import random
 import torchvision.transforms as transforms
 import torch
@@ -86,6 +87,10 @@ class SimpleGridDataset(BaseDataset):
 
             longi = longi[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
+
+            if self.opt.ease_longi:
+                longi = -0.5 * (torch.cos(longi * math.pi) - 1.0)
+
             layers.append(longi)
 
         elif self.opt.longi == 'circular':
@@ -99,6 +104,10 @@ class SimpleGridDataset(BaseDataset):
 
             longi = longi[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
+
+            if self.opt.ease_longi:
+                longi = -0.5 * (torch.cos(longi * math.pi) - 1.0)
+
             layers.append(longi)
 
         if self.opt.lati == 'monotone':
@@ -112,6 +121,10 @@ class SimpleGridDataset(BaseDataset):
 
             lati = lati[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             lati = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(lati)
+
+            if self.opt.ease_lati:
+                lati = -0.5 * (torch.cos(lati * math.pi) - 1.0)
+
             layers.append(lati)
 
         elif self.opt.lati == 'symmetric':
@@ -125,6 +138,10 @@ class SimpleGridDataset(BaseDataset):
 
             lati = lati[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             lati = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(lati)
+
+            if self.opt.ease_lati:
+                lati = -0.5 * (torch.cos(lati * math.pi) - 1.0)
+
             layers.append(lati)
 
         A = torch.cat(layers, dim=0)
