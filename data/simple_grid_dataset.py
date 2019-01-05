@@ -85,11 +85,11 @@ class SimpleGridDataset(BaseDataset):
             else:
                 longi = transforms.ToTensor()(longi).type(torch.FloatTensor) / 65535
 
-            longi = longi[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
-            longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
-
             if self.opt.ease_longi:
                 longi = -0.5 * (torch.cos(longi * math.pi) - 1.0)
+
+            longi = longi[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
+            longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
 
             layers.append(longi)
 
@@ -102,11 +102,11 @@ class SimpleGridDataset(BaseDataset):
             else:
                 longi = transforms.ToTensor()(longi).type(torch.FloatTensor) / 65535
 
-            longi = longi[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
-            longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
-
             if self.opt.ease_longi:
                 longi = -0.5 * (torch.cos(longi * math.pi) - 1.0)
+
+            longi = longi[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
+            longi = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(longi)
 
             layers.append(longi)
 
@@ -118,12 +118,12 @@ class SimpleGridDataset(BaseDataset):
                 lati = transforms.ToTensor()(lati)
             else:
                 lati = transforms.ToTensor()(lati).type(torch.FloatTensor) / 65535
+            
+            if self.opt.ease_lati:
+                lati = -0.5 * (torch.cos(lati * math.pi) - 1.0)
 
             lati = lati[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
             lati = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(lati)
-
-            if self.opt.ease_lati:
-                lati = -0.5 * (torch.cos(lati * math.pi) - 1.0)
 
             layers.append(lati)
 
@@ -136,11 +136,11 @@ class SimpleGridDataset(BaseDataset):
             else:
                 lati = transforms.ToTensor()(lati).type(torch.FloatTensor) / 65535
 
-            lati = lati[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
-            lati = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(lati)
-
             if self.opt.ease_lati:
                 lati = -0.5 * (torch.cos(lati * math.pi) - 1.0)
+
+            lati = lati[:, h_offset:h_offset + self.opt.fineSize, w_offset:w_offset + self.opt.fineSize]
+            lati = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(lati)
 
             layers.append(lati)
 
